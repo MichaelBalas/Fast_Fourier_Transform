@@ -1,0 +1,3087 @@
+var _MacCASOutreach$graphicsvg$GraphicSVG$mapTriple = F2(
+	function (f, _p0) {
+		var _p1 = _p0;
+		return {
+			ctor: '_Tuple3',
+			_0: f(_p1._0),
+			_1: f(_p1._1),
+			_2: f(_p1._2)
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$modFloat = F2(
+	function (x, m) {
+		return x - (m * _elm_lang$core$Basics$toFloat(
+			_elm_lang$core$Basics$floor(x / m)));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$findM = F2(
+	function (lit, chroma) {
+		return lit - (0.5 * chroma);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$findHue$ = function (hue) {
+	return hue / _elm_lang$core$Basics$degrees(60);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$findX = F2(
+	function (chroma, hue) {
+		return chroma * (1 - _elm_lang$core$Basics$abs(
+			A2(
+				_MacCASOutreach$graphicsvg$GraphicSVG$modFloat,
+				_MacCASOutreach$graphicsvg$GraphicSVG$findHue$(hue),
+				2) - 1));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$findChroma = F2(
+	function (lit, sat) {
+		return (1 - _elm_lang$core$Basics$abs((2 * lit) - 1)) * sat;
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$toRGB$ = F3(
+	function (hue, sat, lit) {
+		var hue$ = _MacCASOutreach$graphicsvg$GraphicSVG$findHue$(hue);
+		var chroma = A2(_MacCASOutreach$graphicsvg$GraphicSVG$findChroma, lit, sat);
+		var x = A2(_MacCASOutreach$graphicsvg$GraphicSVG$findX, chroma, hue);
+		return ((_elm_lang$core$Native_Utils.cmp(hue$, 0) > -1) && (_elm_lang$core$Native_Utils.cmp(hue$, 1) < 0)) ? {ctor: '_Tuple3', _0: chroma, _1: x, _2: 0} : (((_elm_lang$core$Native_Utils.cmp(hue$, 1) > -1) && (_elm_lang$core$Native_Utils.cmp(hue$, 2) < 0)) ? {ctor: '_Tuple3', _0: x, _1: chroma, _2: 0} : (((_elm_lang$core$Native_Utils.cmp(hue$, 2) > -1) && (_elm_lang$core$Native_Utils.cmp(hue$, 3) < 0)) ? {ctor: '_Tuple3', _0: 0, _1: chroma, _2: x} : (((_elm_lang$core$Native_Utils.cmp(hue$, 3) > -1) && (_elm_lang$core$Native_Utils.cmp(hue$, 4) < 0)) ? {ctor: '_Tuple3', _0: 0, _1: x, _2: chroma} : (((_elm_lang$core$Native_Utils.cmp(hue$, 4) > -1) && (_elm_lang$core$Native_Utils.cmp(hue$, 5) < 0)) ? {ctor: '_Tuple3', _0: x, _1: 0, _2: chroma} : (((_elm_lang$core$Native_Utils.cmp(hue$, 5) > -1) && (_elm_lang$core$Native_Utils.cmp(hue$, 6) < 0)) ? {ctor: '_Tuple3', _0: chroma, _1: 0, _2: x} : {ctor: '_Tuple3', _0: 0, _1: 0, _2: 0})))));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$convert = F3(
+	function (hue, sat, lit) {
+		var chroma = A2(_MacCASOutreach$graphicsvg$GraphicSVG$findChroma, lit, sat);
+		var m = A2(_MacCASOutreach$graphicsvg$GraphicSVG$findM, lit, chroma);
+		var hue$ = A2(_MacCASOutreach$graphicsvg$GraphicSVG$modFloat, hue, 6.28318530718);
+		var rgb$ = A3(_MacCASOutreach$graphicsvg$GraphicSVG$toRGB$, hue$, sat, lit);
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$mapTriple,
+			function (x) {
+				return x * 255;
+			},
+			A2(
+				_MacCASOutreach$graphicsvg$GraphicSVG$mapTriple,
+				function (x) {
+					return x + m;
+				},
+				rgb$));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$toHexHelper = function (dec) {
+	var _p2 = dec;
+	switch (_p2) {
+		case 0:
+			return '0';
+		case 1:
+			return '1';
+		case 2:
+			return '2';
+		case 3:
+			return '3';
+		case 4:
+			return '4';
+		case 5:
+			return '5';
+		case 6:
+			return '6';
+		case 7:
+			return '7';
+		case 8:
+			return '8';
+		case 9:
+			return '9';
+		case 10:
+			return 'A';
+		case 11:
+			return 'B';
+		case 12:
+			return 'C';
+		case 13:
+			return 'D';
+		case 14:
+			return 'E';
+		case 15:
+			return 'F';
+		default:
+			return '';
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$toHex = function (dec) {
+	var second = A2(_elm_lang$core$Basics_ops['%'], dec, 16);
+	var first = (dec / 16) | 0;
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_MacCASOutreach$graphicsvg$GraphicSVG$toHexHelper(first),
+		_MacCASOutreach$graphicsvg$GraphicSVG$toHexHelper(second));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$mkRGB = function (_p3) {
+	var _p4 = _p3;
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		'#',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_MacCASOutreach$graphicsvg$GraphicSVG$toHex(
+				_elm_lang$core$Basics$round(_p4._0)),
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_MacCASOutreach$graphicsvg$GraphicSVG$toHex(
+					_elm_lang$core$Basics$round(_p4._1)),
+				_MacCASOutreach$graphicsvg$GraphicSVG$toHex(
+					_elm_lang$core$Basics$round(_p4._2)))));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$mkAlpha = function (_p5) {
+	var _p6 = _p5;
+	return _elm_lang$core$Basics$toString(_p6._3);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$pairToString = function (_p7) {
+	var _p8 = _p7;
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		_elm_lang$core$Basics$toString(_p8._0),
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			',',
+			_elm_lang$core$Basics$toString(_p8._1)));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$bezierStringHelper = function (_p9) {
+	var _p10 = _p9;
+	return A2(
+		_elm_lang$core$Basics_ops['++'],
+		' Q ',
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			_MacCASOutreach$graphicsvg$GraphicSVG$pairToString(
+				{ctor: '_Tuple2', _0: _p10._0._0, _1: _p10._0._1}),
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				' ',
+				_MacCASOutreach$graphicsvg$GraphicSVG$pairToString(
+					{ctor: '_Tuple2', _0: _p10._1._0, _1: _p10._1._1}))));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$createBezierString = F2(
+	function (first, list) {
+		return A2(
+			_elm_lang$core$Basics_ops['++'],
+			'M ',
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_MacCASOutreach$graphicsvg$GraphicSVG$pairToString(first),
+				_elm_lang$core$String$concat(
+					A2(_elm_lang$core$List$map, _MacCASOutreach$graphicsvg$GraphicSVG$bezierStringHelper, list))));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$makePair = function (n) {
+	return {ctor: '_Tuple2', _0: n, _1: n};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onTouchEnd = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'touchend',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onTouchStart = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'touchstart',
+		_elm_lang$core$Json_Decode$succeed(msg));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$touchToPair = function (tp) {
+	var _p11 = tp;
+	return {ctor: '_Tuple2', _0: _p11._0, _1: 0 - _p11._1};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$xyToPair = function (xy) {
+	return {
+		ctor: '_Tuple2',
+		_0: _elm_lang$core$Basics$toFloat(xy.x),
+		_1: _elm_lang$core$Basics$toFloat(0 - xy.y)
+	};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onTapAt = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'click',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p12) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$xyToPair(_p12));
+			},
+			_elm_lang$mouse$Mouse$position));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onEnterAt = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseover',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p13) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$xyToPair(_p13));
+			},
+			_elm_lang$mouse$Mouse$position));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onLeaveAt = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseleave',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p14) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$xyToPair(_p14));
+			},
+			_elm_lang$mouse$Mouse$position));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onMoveAt = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousemove',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p15) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$xyToPair(_p15));
+			},
+			_elm_lang$mouse$Mouse$position));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onMouseDownAt = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mousedown',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p16) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$xyToPair(_p16));
+			},
+			_elm_lang$mouse$Mouse$position));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onMouseUpAt = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'mouseup',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p17) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$xyToPair(_p17));
+			},
+			_elm_lang$mouse$Mouse$position));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$flippedComparison = F2(
+	function (_p19, _p18) {
+		var _p20 = _p19;
+		var _p21 = _p18;
+		var _p22 = A2(_elm_lang$core$Basics$compare, _p20._0, _p21._0);
+		switch (_p22.ctor) {
+			case 'LT':
+				return _elm_lang$core$Basics$GT;
+			case 'EQ':
+				return _elm_lang$core$Basics$EQ;
+			default:
+				return _elm_lang$core$Basics$LT;
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$f = 500;
+var _MacCASOutreach$graphicsvg$GraphicSVG$cPath = F2(
+	function (w, h) {
+		return A2(
+			_elm_lang$svg$Svg$defs,
+			_elm_lang$core$Native_List.fromArray(
+				[]),
+			_elm_lang$core$Native_List.fromArray(
+				[
+					A2(
+					_elm_lang$svg$Svg$clipPath,
+					_elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$svg$Svg_Attributes$id('cPath')
+						]),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							A2(
+							_elm_lang$svg$Svg$rect,
+							_elm_lang$core$Native_List.fromArray(
+								[
+									_elm_lang$svg$Svg_Attributes$width(
+									_elm_lang$core$Basics$toString(w)),
+									_elm_lang$svg$Svg_Attributes$height(
+									_elm_lang$core$Basics$toString(h)),
+									_elm_lang$svg$Svg_Attributes$x(
+									_elm_lang$core$Basics$toString((0 - w) / 2)),
+									_elm_lang$svg$Svg_Attributes$y(
+									_elm_lang$core$Basics$toString((0 - h) / 2))
+								]),
+							_elm_lang$core$Native_List.fromArray(
+								[]))
+						]))
+				]));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$myStyle = _elm_lang$html$Html_Attributes$style(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			{ctor: '_Tuple2', _0: 'width', _1: '100%'},
+			{ctor: '_Tuple2', _0: 'height', _1: '20px'},
+			{ctor: '_Tuple2', _0: 'padding', _1: '10px 0'},
+			{ctor: '_Tuple2', _0: 'font-size', _1: '1.5em'},
+			{ctor: '_Tuple2', _0: 'text-align', _1: 'center'},
+			{ctor: '_Tuple2', _0: 'background-color', _1: '#2e3842'},
+			{ctor: '_Tuple2', _0: 'color', _1: '#ffffff'},
+			{ctor: '_Tuple2', _0: 'border', _1: '1px solid #ffffff'},
+			{ctor: '_Tuple2', _0: '-webkit-touch-callout', _1: 'none'},
+			{ctor: '_Tuple2', _0: '-webkit-user-select', _1: 'none'},
+			{ctor: '_Tuple2', _0: '-khtml-user-select', _1: 'none'},
+			{ctor: '_Tuple2', _0: '-moz-user-select', _1: 'none'},
+			{ctor: '_Tuple2', _0: '-ms-user-select', _1: 'none'},
+			{ctor: '_Tuple2', _0: 'user-select', _1: 'none'},
+			{ctor: '_Tuple2', _0: 'cursor', _1: 'default'},
+			{ctor: '_Tuple2', _0: 'max-width', _1: '600px'}
+		]));
+var _MacCASOutreach$graphicsvg$GraphicSVG$scaleT = F2(
+	function (_p24, _p23) {
+		var _p25 = _p24;
+		var _p26 = _p23;
+		return {
+			ctor: '_Tuple2',
+			_0: _p25._0,
+			_1: {
+				ctor: '_Tuple3',
+				_0: {ctor: '_Tuple2', _0: _p25._1._0._0 * _p26._0, _1: _p25._1._0._1 * _p26._1},
+				_1: _p25._1._1,
+				_2: {ctor: '_Tuple2', _0: _p25._1._2._0, _1: _p25._1._2._1}
+			}
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$rotT = F2(
+	function (_p27, rad) {
+		var _p28 = _p27;
+		return {
+			ctor: '_Tuple2',
+			_0: _p28._0,
+			_1: {ctor: '_Tuple3', _0: _p28._1._0, _1: _p28._1._1 + rad, _2: _p28._1._2}
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$moveT = F2(
+	function (_p30, _p29) {
+		var _p31 = _p30;
+		var _p32 = _p29;
+		return {
+			ctor: '_Tuple2',
+			_0: _p31._0,
+			_1: {
+				ctor: '_Tuple3',
+				_0: _p31._1._0,
+				_1: _p31._1._1,
+				_2: {ctor: '_Tuple2', _0: _p31._1._2._0 + _p32._0, _1: _p31._1._2._1 + _p32._1}
+			}
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$id = {
+	ctor: '_Tuple2',
+	_0: {
+		ctor: '_Tuple3',
+		_0: {ctor: '_Tuple2', _0: 1, _1: 0},
+		_1: {ctor: '_Tuple2', _0: 0, _1: 1},
+		_2: {ctor: '_Tuple2', _0: 0, _1: 0}
+	},
+	_1: {
+		ctor: '_Tuple3',
+		_0: {ctor: '_Tuple2', _0: 1, _1: 1},
+		_1: 0,
+		_2: {ctor: '_Tuple2', _0: 0, _1: 0}
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$coalesce = function (_p33) {
+	var _p34 = _p33;
+	var _p43 = _p34._1._0._1;
+	var _p42 = _p34._1._0._0;
+	var _p41 = _p34._1._2._1;
+	var _p40 = _p34._1._2._0;
+	var _p39 = _p34._1._1;
+	var _p38 = _p34._0._1._1;
+	var _p37 = _p34._0._1._0;
+	var _p36 = _p34._0._0._1;
+	var _p35 = _p34._0._0._0;
+	var ry = _elm_lang$core$Basics$sin(_p39);
+	var rx = _elm_lang$core$Basics$cos(_p39);
+	var sd = _p43 * _p38;
+	var sc = _p42 * _p37;
+	var sb = _p43 * _p36;
+	var sa = _p42 * _p35;
+	return {
+		ctor: '_Tuple2',
+		_0: {
+			ctor: '_Tuple3',
+			_0: {ctor: '_Tuple2', _0: (rx * sa) - (ry * sb), _1: (ry * sa) + (rx * sb)},
+			_1: {ctor: '_Tuple2', _0: (rx * sc) - (ry * sd), _1: (ry * sc) + (rx * sd)},
+			_2: {ctor: '_Tuple2', _0: (_p34._0._2._0 + (_p35 * _p40)) + (_p37 * _p41), _1: (_p34._0._2._1 + (_p36 * _p40)) + (_p38 * _p41)}
+		},
+		_1: {
+			ctor: '_Tuple3',
+			_0: {ctor: '_Tuple2', _0: 1, _1: 1},
+			_1: 0,
+			_2: {ctor: '_Tuple2', _0: 0, _1: 0}
+		}
+	};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$createTopLevelList = function (_p44) {
+	var _p45 = _p44;
+	return _elm_lang$core$Native_List.fromArray(
+		[
+			{ctor: '_Tuple2', _0: _p45._0._0, _1: _p45._0._1},
+			{ctor: '_Tuple2', _0: _p45._1._0, _1: _p45._1._1}
+		]);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$curveListHelper = function (_p46) {
+	var _p47 = _p46;
+	return {
+		ctor: '_Tuple2',
+		_0: {ctor: '_Tuple2', _0: _p47._0._0, _1: _p47._0._1},
+		_1: {ctor: '_Tuple2', _0: _p47._1._0, _1: _p47._1._1}
+	};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$ptOnCircle = F3(
+	function (r, n, cn) {
+		var angle = (360 * cn) / n;
+		return {
+			ctor: '_Tuple2',
+			_0: r * _elm_lang$core$Basics$cos(
+				_elm_lang$core$Basics$degrees(angle)),
+			_1: r * _elm_lang$core$Basics$sin(
+				_elm_lang$core$Basics$degrees(angle))
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$wedgeHelper = F2(
+	function (r, cn) {
+		var angle = cn;
+		return {
+			ctor: '_Tuple2',
+			_0: r * _elm_lang$core$Basics$cos(
+				_elm_lang$core$Basics$degrees(angle)),
+			_1: r * _elm_lang$core$Basics$sin(
+				_elm_lang$core$Basics$degrees(angle))
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$filterHelper = F2(
+	function (key, action) {
+		var _p48 = action;
+		if ((_p48.ctor === '_Tuple2') && (_p48._0.ctor === 'Up')) {
+			return false;
+		} else {
+			return true;
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$aHiddenView = F2(
+	function (view, model) {
+		return view(model);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$aHiddenUpdate = F3(
+	function (update, msg, model) {
+		return {
+			ctor: '_Tuple2',
+			_0: A2(update, msg, model),
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$convertCoords = F2(
+	function (_p49, gModel) {
+		var _p50 = _p49;
+		var ch = gModel.ch;
+		var cw = gModel.cw;
+		var sh = gModel.sh;
+		var sw = gModel.sw;
+		var aspect = _elm_lang$core$Basics$not(
+			_elm_lang$core$Native_Utils.eq(sh, 0)) ? (sw / sh) : (4 / 3);
+		var scaledInX = _elm_lang$core$Native_Utils.cmp(aspect, 4 / 3) < 0;
+		var offsetY = scaledInX ? -3 : 0;
+		var scaledInY = _elm_lang$core$Native_Utils.cmp(aspect, 4 / 3) > 0;
+		var scale = scaledInX ? (sw / cw) : (scaledInY ? ((sh * 0.99) / ch) : 1);
+		var newW = cw * scale;
+		var newH = ch * scale;
+		var leadY = scaledInX ? ((sh - newH) / 2) : 0;
+		var leadX = scaledInY ? ((sw - newW) / 2) : 0;
+		return {ctor: '_Tuple2', _0: ((_p50._0 - leadX) - (newW / 2)) / scale, _1: (((_p50._1 + leadY) + offsetY) + (newH / 2)) / scale};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$hiddenUpdate = F3(
+	function (update, msg, _p51) {
+		var _p52 = _p51;
+		var _p55 = _p52._0;
+		var _p54 = _p52._1;
+		var _p53 = msg;
+		_v21_4:
+		do {
+			switch (_p53.ctor) {
+				case 'Graphics':
+					return {
+						ctor: '_Tuple2',
+						_0: {
+							ctor: '_Tuple2',
+							_0: A2(update, _p53._0, _p55),
+							_1: _p54
+						},
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				case 'WindowResize':
+					if (_p53._0.ctor === '_Tuple2') {
+						return {
+							ctor: '_Tuple2',
+							_0: {
+								ctor: '_Tuple2',
+								_0: _p55,
+								_1: _elm_lang$core$Native_Utils.update(
+									_p54,
+									{
+										sw: _elm_lang$core$Basics$toFloat(_p53._0._0),
+										sh: _elm_lang$core$Basics$toFloat(_p53._0._1)
+									})
+							},
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						break _v21_4;
+					}
+				case 'ReturnPosition':
+					if (_p53._1.ctor === '_Tuple2') {
+						return {
+							ctor: '_Tuple2',
+							_0: {
+								ctor: '_Tuple2',
+								_0: A2(
+									update,
+									_p53._0(
+										A2(
+											_MacCASOutreach$graphicsvg$GraphicSVG$convertCoords,
+											{ctor: '_Tuple2', _0: _p53._1._0, _1: _p53._1._1},
+											_p54)),
+									_p55),
+								_1: _p54
+							},
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						break _v21_4;
+					}
+				case 'CollageSize':
+					if (_p53._0.ctor === '_Tuple2') {
+						return {
+							ctor: '_Tuple2',
+							_0: {
+								ctor: '_Tuple2',
+								_0: _p55,
+								_1: _elm_lang$core$Native_Utils.update(
+									_p54,
+									{
+										cw: _elm_lang$core$Basics$toFloat(_p53._0._0),
+										ch: _elm_lang$core$Basics$toFloat(_p53._0._1)
+									})
+							},
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						break _v21_4;
+					}
+				default:
+					break _v21_4;
+			}
+		} while(false);
+		return {
+			ctor: '_Tuple2',
+			_0: {ctor: '_Tuple2', _0: _p55, _1: _p54},
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$blankUpdate = F2(
+	function (msg, _p56) {
+		var _p57 = _p56;
+		var _p60 = _p57._0;
+		var _p59 = _p57._1;
+		var _p58 = msg;
+		_v23_4:
+		do {
+			switch (_p58.ctor) {
+				case 'Graphics':
+					return {
+						ctor: '_Tuple2',
+						_0: {ctor: '_Tuple2', _0: _p60, _1: _p59},
+						_1: _elm_lang$core$Platform_Cmd$none
+					};
+				case 'WindowResize':
+					if (_p58._0.ctor === '_Tuple2') {
+						return {
+							ctor: '_Tuple2',
+							_0: {
+								ctor: '_Tuple2',
+								_0: _p60,
+								_1: _elm_lang$core$Native_Utils.update(
+									_p59,
+									{
+										sw: _elm_lang$core$Basics$toFloat(_p58._0._0),
+										sh: _elm_lang$core$Basics$toFloat(_p58._0._1)
+									})
+							},
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						break _v23_4;
+					}
+				case 'ReturnPosition':
+					if (_p58._1.ctor === '_Tuple2') {
+						return {
+							ctor: '_Tuple2',
+							_0: {ctor: '_Tuple2', _0: _p60, _1: _p59},
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						break _v23_4;
+					}
+				case 'CollageSize':
+					if (_p58._0.ctor === '_Tuple2') {
+						return {
+							ctor: '_Tuple2',
+							_0: {
+								ctor: '_Tuple2',
+								_0: _p60,
+								_1: _elm_lang$core$Native_Utils.update(
+									_p59,
+									{
+										cw: _elm_lang$core$Basics$toFloat(_p58._0._0),
+										ch: _elm_lang$core$Basics$toFloat(_p58._0._1)
+									})
+							},
+							_1: _elm_lang$core$Platform_Cmd$none
+						};
+					} else {
+						break _v23_4;
+					}
+				default:
+					break _v23_4;
+			}
+		} while(false);
+		return {
+			ctor: '_Tuple2',
+			_0: {ctor: '_Tuple2', _0: _p60, _1: _p59},
+			_1: _elm_lang$core$Platform_Cmd$none
+		};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$JustGraphics = function (a) {
+	return {view: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$GraphicsApp = F3(
+	function (a, b, c) {
+		return {model: a, update: b, view: c};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$GModel = F7(
+	function (a, b, c, d, e, f, g) {
+		return {cw: a, ch: b, sw: c, sh: d, initT: e, updateTick: f, keys: g};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Text = F2(
+	function (a, b) {
+		return {ctor: 'Text', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Path = function (a) {
+	return {ctor: 'Path', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$line = F2(
+	function (p1, p2) {
+		return _MacCASOutreach$graphicsvg$GraphicSVG$Path(
+			_elm_lang$core$Native_List.fromArray(
+				[p1, p2]));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$openPolygon = function (ptList) {
+	return _MacCASOutreach$graphicsvg$GraphicSVG$Path(ptList);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Polygon = function (a) {
+	return {ctor: 'Polygon', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$polygon = function (ptList) {
+	return _MacCASOutreach$graphicsvg$GraphicSVG$Polygon(ptList);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$ngon = F2(
+	function (n, r) {
+		return _MacCASOutreach$graphicsvg$GraphicSVG$Polygon(
+			A2(
+				_elm_lang$core$List$map,
+				A2(_MacCASOutreach$graphicsvg$GraphicSVG$ptOnCircle, r, n),
+				_elm_lang$core$Native_List.range(0, n)));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$triangle = function (r) {
+	return A2(_MacCASOutreach$graphicsvg$GraphicSVG$ngon, 3, r);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$wedge = F2(
+	function (r, frac) {
+		var n = ((frac * 360) / 10) + 5;
+		return _MacCASOutreach$graphicsvg$GraphicSVG$Polygon(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Native_List.fromArray(
+					[
+						{ctor: '_Tuple2', _0: 0, _1: 0}
+					]),
+				A2(
+					_elm_lang$core$Basics_ops['++'],
+					A2(
+						_elm_lang$core$List$map,
+						function (_p61) {
+							return A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$wedgeHelper,
+								r,
+								A2(
+									F2(
+										function (x, y) {
+											return x * y;
+										}),
+									(frac / n) * 180,
+									_p61));
+						},
+						_elm_lang$core$Native_List.range(0 - n, n)),
+					_elm_lang$core$Native_List.fromArray(
+						[
+							{ctor: '_Tuple2', _0: 0, _1: 0}
+						]))));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$BezierPath = F2(
+	function (a, b) {
+		return {ctor: 'BezierPath', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$curve = F2(
+	function (_p62, list) {
+		var _p63 = _p62;
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$BezierPath,
+			{ctor: '_Tuple2', _0: _p63._0, _1: _p63._1},
+			A2(_elm_lang$core$List$map, _MacCASOutreach$graphicsvg$GraphicSVG$curveListHelper, list));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Oval = F2(
+	function (a, b) {
+		return {ctor: 'Oval', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$oval = F2(
+	function (w, h) {
+		return A2(_MacCASOutreach$graphicsvg$GraphicSVG$Oval, w, h);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$RoundRect = F3(
+	function (a, b, c) {
+		return {ctor: 'RoundRect', _0: a, _1: b, _2: c};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$roundedRect = F3(
+	function (w, h, r) {
+		return A3(_MacCASOutreach$graphicsvg$GraphicSVG$RoundRect, w, h, r);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Rect = F2(
+	function (a, b) {
+		return {ctor: 'Rect', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$square = function (r) {
+	return A2(_MacCASOutreach$graphicsvg$GraphicSVG$Rect, r, r);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$rect = F2(
+	function (w, h) {
+		return A2(_MacCASOutreach$graphicsvg$GraphicSVG$Rect, w, h);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$rectangle = F2(
+	function (w, h) {
+		return A2(_MacCASOutreach$graphicsvg$GraphicSVG$Rect, w, h);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Circle = function (a) {
+	return {ctor: 'Circle', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$circle = function (r) {
+	return _MacCASOutreach$graphicsvg$GraphicSVG$Circle(r);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$TouchMoveAt = F2(
+	function (a, b) {
+		return {ctor: 'TouchMoveAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$TouchEndAt = F2(
+	function (a, b) {
+		return {ctor: 'TouchEndAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$TouchStartAt = F2(
+	function (a, b) {
+		return {ctor: 'TouchStartAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$TouchEnd = F2(
+	function (a, b) {
+		return {ctor: 'TouchEnd', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$TouchStart = F2(
+	function (a, b) {
+		return {ctor: 'TouchStart', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$MoveOverAt = F2(
+	function (a, b) {
+		return {ctor: 'MoveOverAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$MouseUpAt = F2(
+	function (a, b) {
+		return {ctor: 'MouseUpAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$MouseUp = F2(
+	function (a, b) {
+		return {ctor: 'MouseUp', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$MouseDownAt = F2(
+	function (a, b) {
+		return {ctor: 'MouseDownAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$MouseDown = F2(
+	function (a, b) {
+		return {ctor: 'MouseDown', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$ExitAt = F2(
+	function (a, b) {
+		return {ctor: 'ExitAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Exit = F2(
+	function (a, b) {
+		return {ctor: 'Exit', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$EnterAt = F2(
+	function (a, b) {
+		return {ctor: 'EnterAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$EnterShape = F2(
+	function (a, b) {
+		return {ctor: 'EnterShape', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$TapAt = F2(
+	function (a, b) {
+		return {ctor: 'TapAt', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Tap = F2(
+	function (a, b) {
+		return {ctor: 'Tap', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Link = F2(
+	function (a, b) {
+		return {ctor: 'Link', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$addHyperlink = F2(
+	function (link, shape) {
+		return A2(_MacCASOutreach$graphicsvg$GraphicSVG$Link, link, shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Group = function (a) {
+	return {ctor: 'Group', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$group = function (shapes) {
+	return _MacCASOutreach$graphicsvg$GraphicSVG$Group(shapes);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY = F3(
+	function (a, b, c) {
+		return {ctor: 'ScaleXY', _0: a, _1: b, _2: c};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$scale = F2(
+	function (s, shape) {
+		return A3(_MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY, s, s, shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$extractShape = function (_p64) {
+	var _p65 = _p64;
+	var s = _MacCASOutreach$graphicsvg$GraphicSVG$f / (_MacCASOutreach$graphicsvg$GraphicSVG$f + _p65._0);
+	return A2(
+		_MacCASOutreach$graphicsvg$GraphicSVG$scale,
+		s,
+		_MacCASOutreach$graphicsvg$GraphicSVG$group(
+			_elm_lang$core$Native_List.fromArray(
+				[_p65._1])));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$scaleX = F2(
+	function (s, shape) {
+		return A3(_MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY, s, 1, shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$scaleY = F2(
+	function (s, shape) {
+		return A3(_MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY, 1, s, shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$mirrorX = function (shape) {
+	return A3(_MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY, -1, 1, shape);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$mirrorY = function (shape) {
+	return A3(_MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY, 1, -1, shape);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Rotate = F2(
+	function (a, b) {
+		return {ctor: 'Rotate', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$rotate = F2(
+	function (theta, shape) {
+		return A2(_MacCASOutreach$graphicsvg$GraphicSVG$Rotate, theta, shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Move = F2(
+	function (a, b) {
+		return {ctor: 'Move', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$move = F2(
+	function (disp, shape) {
+		return A2(_MacCASOutreach$graphicsvg$GraphicSVG$Move, disp, shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$ClipPath = F3(
+	function (a, b, c) {
+		return {ctor: 'ClipPath', _0: a, _1: b, _2: c};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$ForeignObject = function (a) {
+	return {ctor: 'ForeignObject', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Inked = F3(
+	function (a, b, c) {
+		return {ctor: 'Inked', _0: a, _1: b, _2: c};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$filled = F2(
+	function (color, shape) {
+		return A3(_MacCASOutreach$graphicsvg$GraphicSVG$Inked, color, _elm_lang$core$Maybe$Nothing, shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$addOutline = F3(
+	function (style, outlineClr, shape) {
+		var lineStyle = {ctor: '_Tuple2', _0: style, _1: outlineClr};
+		var _p66 = shape;
+		switch (_p66.ctor) {
+			case 'Inked':
+				return A3(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+					_p66._0,
+					_elm_lang$core$Maybe$Just(lineStyle),
+					_p66._2);
+			case 'Move':
+				return A2(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Move,
+					_p66._0,
+					A3(_MacCASOutreach$graphicsvg$GraphicSVG$addOutline, style, outlineClr, _p66._1));
+			case 'Rotate':
+				return A2(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Rotate,
+					_p66._0,
+					A3(_MacCASOutreach$graphicsvg$GraphicSVG$addOutline, style, outlineClr, _p66._1));
+			case 'ScaleXY':
+				return A3(
+					_MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY,
+					_p66._0,
+					_p66._1,
+					A3(_MacCASOutreach$graphicsvg$GraphicSVG$addOutline, style, outlineClr, _p66._2));
+			case 'Group':
+				return _MacCASOutreach$graphicsvg$GraphicSVG$Group(_p66._0);
+			default:
+				return _p66;
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$RGBA = F4(
+	function (a, b, c, d) {
+		return {ctor: 'RGBA', _0: a, _1: b, _2: c, _3: d};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent = F2(
+	function (alpha, shape) {
+		var _p67 = shape;
+		_v27_6:
+		do {
+			switch (_p67.ctor) {
+				case 'Inked':
+					if (_p67._1.ctor === 'Just') {
+						if (_p67._1._0.ctor === '_Tuple2') {
+							return A3(
+								_MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+								A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, _p67._0._0, _p67._0._1, _p67._0._2, _p67._0._3 * alpha),
+								_elm_lang$core$Maybe$Just(
+									{
+										ctor: '_Tuple2',
+										_0: _p67._1._0._0,
+										_1: A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, _p67._1._0._1._0, _p67._1._0._1._1, _p67._1._0._1._2, _p67._1._0._1._3 * alpha)
+									}),
+								_p67._2);
+						} else {
+							break _v27_6;
+						}
+					} else {
+						return A3(
+							_MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+							A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, _p67._0._0, _p67._0._1, _p67._0._2, _p67._0._3 * alpha),
+							_elm_lang$core$Maybe$Nothing,
+							_p67._2);
+					}
+				case 'Move':
+					return A2(
+						_MacCASOutreach$graphicsvg$GraphicSVG$Move,
+						_p67._0,
+						A2(_MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, _p67._1));
+				case 'Rotate':
+					return A2(
+						_MacCASOutreach$graphicsvg$GraphicSVG$Rotate,
+						_p67._0,
+						A2(_MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, _p67._1));
+				case 'ScaleXY':
+					return A3(
+						_MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY,
+						_p67._0,
+						_p67._1,
+						A2(_MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent, alpha, _p67._2));
+				case 'Group':
+					return _MacCASOutreach$graphicsvg$GraphicSVG$Group(
+						A2(
+							_elm_lang$core$List$map,
+							_MacCASOutreach$graphicsvg$GraphicSVG$makeTransparent(alpha),
+							_p67._0));
+				default:
+					break _v27_6;
+			}
+		} while(false);
+		return _p67;
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$rgb = F3(
+	function (r, g, b) {
+		return A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, r, g, b, 1);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$createGraphX = F3(
+	function (h, s, x) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$move,
+			{ctor: '_Tuple2', _0: x * s, _1: 0},
+			A2(
+				_MacCASOutreach$graphicsvg$GraphicSVG$filled,
+				A3(_MacCASOutreach$graphicsvg$GraphicSVG$rgb, 135, 206, 250),
+				A2(_MacCASOutreach$graphicsvg$GraphicSVG$rect, 1, h)));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$createGraphY = F3(
+	function (w, s, y) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$move,
+			{ctor: '_Tuple2', _0: 0, _1: y * s},
+			A2(
+				_MacCASOutreach$graphicsvg$GraphicSVG$filled,
+				A3(_MacCASOutreach$graphicsvg$GraphicSVG$rgb, 135, 206, 250),
+				A2(_MacCASOutreach$graphicsvg$GraphicSVG$rect, w, 1)));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$graphPaper = function (s) {
+	return _MacCASOutreach$graphicsvg$GraphicSVG$group(
+		A2(
+			_elm_lang$core$Basics_ops['++'],
+			A2(
+				_elm_lang$core$List$map,
+				A2(_MacCASOutreach$graphicsvg$GraphicSVG$createGraphX, 1600, s),
+				_elm_lang$core$Native_List.range(-1500 / s, 1500 / s)),
+			A2(
+				_elm_lang$core$List$map,
+				A2(_MacCASOutreach$graphicsvg$GraphicSVG$createGraphY, 3000, s),
+				_elm_lang$core$Native_List.range(-800 / s, 800 / s))));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$rgba = F4(
+	function (r, g, b, a) {
+		return A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, r, g, b, a);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$outlined = F3(
+	function (style, outlineClr, shape) {
+		var lineStyle = {ctor: '_Tuple2', _0: style, _1: outlineClr};
+		return A3(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Inked,
+			A4(_MacCASOutreach$graphicsvg$GraphicSVG$rgba, 0, 0, 0, 0),
+			_elm_lang$core$Maybe$Just(lineStyle),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$hsl = F3(
+	function (h, s, l) {
+		var _p68 = A3(_MacCASOutreach$graphicsvg$GraphicSVG$convert, h, s, l);
+		return A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, _p68._0, _p68._1, _p68._2, 1);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$hsla = F4(
+	function (h, s, l, a) {
+		var _p69 = A3(_MacCASOutreach$graphicsvg$GraphicSVG$convert, h, s, l);
+		return A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, _p69._0, _p69._1, _p69._2, a);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$pink = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 255, 105, 180, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$hotPink = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 255, 0, 66, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightRed = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 239, 41, 41, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$red = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 204, 0, 0, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkRed = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 164, 0, 0, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightOrange = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 252, 175, 62, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$orange = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 245, 121, 0, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkOrange = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 206, 92, 0, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightYellow = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 255, 233, 79, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$yellow = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 237, 212, 0, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkYellow = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 196, 160, 0, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightGreen = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 138, 226, 52, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$green = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 115, 210, 22, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkGreen = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 78, 154, 6, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightBlue = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 114, 159, 207, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$blue = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 52, 101, 164, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkBlue = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 32, 74, 135, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightPurple = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 173, 127, 168, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$purple = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 117, 80, 123, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkPurple = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 92, 53, 102, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightBrown = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 233, 185, 110, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$brown = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 193, 125, 17, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkBrown = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 143, 89, 2, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$black = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 0, 0, 0, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$white = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 255, 255, 255, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightGrey = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 238, 238, 236, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$grey = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 211, 215, 207, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkGrey = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 186, 189, 182, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightGray = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 238, 238, 236, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$gray = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 211, 215, 207, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkGray = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 186, 189, 182, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$lightCharcoal = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 136, 138, 133, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$charcoal = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 85, 87, 83, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$darkCharcoal = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 46, 52, 54, 1);
+var _MacCASOutreach$graphicsvg$GraphicSVG$blank = A4(_MacCASOutreach$graphicsvg$GraphicSVG$RGBA, 0, 0, 0, 0);
+var _MacCASOutreach$graphicsvg$GraphicSVG$Broken = F2(
+	function (a, b) {
+		return {ctor: 'Broken', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$dotted = function (th) {
+	return A2(
+		_MacCASOutreach$graphicsvg$GraphicSVG$Broken,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: th, _1: th}
+			]),
+		th);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$dashed = function (th) {
+	return A2(
+		_MacCASOutreach$graphicsvg$GraphicSVG$Broken,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: th * 5, _1: th * 2.5}
+			]),
+		th);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$generateCHLine = F2(
+	function (ar, $int) {
+		var p2 = function () {
+			var _p70 = A2(_elm_lang$core$Array$get, $int + 1, ar);
+			if (_p70.ctor === 'Just') {
+				return _p70._0;
+			} else {
+				return {ctor: '_Tuple2', _0: 0, _1: 0};
+			}
+		}();
+		var p1 = function () {
+			var _p71 = A2(_elm_lang$core$Array$get, $int, ar);
+			if (_p71.ctor === 'Just') {
+				return _p71._0;
+			} else {
+				return {ctor: '_Tuple2', _0: 0, _1: 0};
+			}
+		}();
+		return A3(
+			_MacCASOutreach$graphicsvg$GraphicSVG$outlined,
+			_MacCASOutreach$graphicsvg$GraphicSVG$dashed(0.5),
+			_MacCASOutreach$graphicsvg$GraphicSVG$black,
+			A2(_MacCASOutreach$graphicsvg$GraphicSVG$line, p1, p2));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$generateCHLines = function (ar) {
+	var len = _elm_lang$core$Array$length(ar);
+	return _MacCASOutreach$graphicsvg$GraphicSVG$group(
+		A2(
+			_elm_lang$core$List$map,
+			_MacCASOutreach$graphicsvg$GraphicSVG$generateCHLine(ar),
+			_elm_lang$core$Native_List.range(0, len - 2)));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$longdash = function (th) {
+	return A2(
+		_MacCASOutreach$graphicsvg$GraphicSVG$Broken,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: th * 12, _1: th * 6}
+			]),
+		th);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$dotdash = function (th) {
+	return A2(
+		_MacCASOutreach$graphicsvg$GraphicSVG$Broken,
+		_elm_lang$core$Native_List.fromArray(
+			[
+				{ctor: '_Tuple2', _0: th, _1: th},
+				{ctor: '_Tuple2', _0: th * 5, _1: th}
+			]),
+		th);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$custom = F2(
+	function (list, th) {
+		return A2(_MacCASOutreach$graphicsvg$GraphicSVG$Broken, list, th);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$increasing = F3(
+	function (s, e, th) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Broken,
+			A2(
+				_elm_lang$core$List$map,
+				_MacCASOutreach$graphicsvg$GraphicSVG$makePair,
+				_elm_lang$core$Native_List.range(s, e)),
+			th);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Solid = function (a) {
+	return {ctor: 'Solid', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$solid = function (th) {
+	return _MacCASOutreach$graphicsvg$GraphicSVG$Solid(th);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Face = F8(
+	function (a, b, c, d, e, f, g, h) {
+		return {ctor: 'Face', _0: a, _1: b, _2: c, _3: d, _4: e, _5: f, _6: g, _7: h};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$size = F2(
+	function (size, stencil) {
+		var _p72 = stencil;
+		if (_p72.ctor === 'Text') {
+			return A2(
+				_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+				A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, size, _p72._0._1, _p72._0._2, _p72._0._3, _p72._0._4, _p72._0._5, _p72._0._6, _p72._0._7),
+				_p72._1);
+		} else {
+			return _p72;
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$bold = function (stencil) {
+	var _p73 = stencil;
+	if (_p73.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p73._0._0, true, _p73._0._2, _p73._0._3, _p73._0._4, _p73._0._5, _p73._0._6, _p73._0._7),
+			_p73._1);
+	} else {
+		return _p73;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$italic = function (stencil) {
+	var _p74 = stencil;
+	if (_p74.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p74._0._0, _p74._0._1, true, _p74._0._3, _p74._0._4, _p74._0._5, _p74._0._6, _p74._0._7),
+			_p74._1);
+	} else {
+		return _p74;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$underline = function (stencil) {
+	var _p75 = stencil;
+	if (_p75.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p75._0._0, _p75._0._1, _p75._0._2, true, _p75._0._4, _p75._0._5, _p75._0._6, _p75._0._7),
+			_p75._1);
+	} else {
+		return _p75;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$strikethrough = function (stencil) {
+	var _p76 = stencil;
+	if (_p76.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p76._0._0, _p76._0._1, _p76._0._2, _p76._0._3, true, _p76._0._5, _p76._0._6, _p76._0._7),
+			_p76._1);
+	} else {
+		return _p76;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$selectable = function (stencil) {
+	var _p77 = stencil;
+	if (_p77.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p77._0._0, _p77._0._1, _p77._0._2, _p77._0._3, _p77._0._4, true, _p77._0._6, _p77._0._7),
+			_p77._1);
+	} else {
+		return _p77;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$centered = function (stencil) {
+	var _p78 = stencil;
+	if (_p78.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p78._0._0, _p78._0._1, _p78._0._2, _p78._0._3, _p78._0._4, _p78._0._5, _p78._0._6, true),
+			_p78._1);
+	} else {
+		return _p78;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Custom = function (a) {
+	return {ctor: 'Custom', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$customFont = F2(
+	function (fStr, stencil) {
+		var _p79 = stencil;
+		if (_p79.ctor === 'Text') {
+			return A2(
+				_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+				A8(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Face,
+					_p79._0._0,
+					_p79._0._1,
+					_p79._0._2,
+					_p79._0._3,
+					_p79._0._4,
+					_p79._0._5,
+					_MacCASOutreach$graphicsvg$GraphicSVG$Custom(fStr),
+					_p79._0._7),
+				_p79._1);
+		} else {
+			return _p79;
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$FixedWidth = {ctor: 'FixedWidth'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$fixedwidth = function (stencil) {
+	var _p80 = stencil;
+	if (_p80.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p80._0._0, _p80._0._1, _p80._0._2, _p80._0._3, _p80._0._4, _p80._0._5, _MacCASOutreach$graphicsvg$GraphicSVG$FixedWidth, _p80._0._7),
+			_p80._1);
+	} else {
+		return _p80;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Sansserif = {ctor: 'Sansserif'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$sansserif = function (stencil) {
+	var _p81 = stencil;
+	if (_p81.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p81._0._0, _p81._0._1, _p81._0._2, _p81._0._3, _p81._0._4, _p81._0._5, _MacCASOutreach$graphicsvg$GraphicSVG$Sansserif, _p81._0._7),
+			_p81._1);
+	} else {
+		return _p81;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Serif = {ctor: 'Serif'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$text = function (str) {
+	return A2(
+		_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+		A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, 12, false, false, false, false, false, _MacCASOutreach$graphicsvg$GraphicSVG$Serif, false),
+		str);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$generateCHCircle = F2(
+	function (ar, $int) {
+		var p1 = function () {
+			var _p82 = A2(_elm_lang$core$Array$get, $int, ar);
+			if (_p82.ctor === 'Just') {
+				return _p82._0;
+			} else {
+				return {ctor: '_Tuple2', _0: 0, _1: 0};
+			}
+		}();
+		var ptStr = _MacCASOutreach$graphicsvg$GraphicSVG$pairToString(p1);
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$move,
+			p1,
+			_MacCASOutreach$graphicsvg$GraphicSVG$group(
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_MacCASOutreach$graphicsvg$GraphicSVG$filled,
+						_MacCASOutreach$graphicsvg$GraphicSVG$red,
+						_MacCASOutreach$graphicsvg$GraphicSVG$circle(2)),
+						A2(
+						_MacCASOutreach$graphicsvg$GraphicSVG$move,
+						{ctor: '_Tuple2', _0: 5, _1: 5},
+						A2(
+							_MacCASOutreach$graphicsvg$GraphicSVG$filled,
+							_MacCASOutreach$graphicsvg$GraphicSVG$black,
+							_MacCASOutreach$graphicsvg$GraphicSVG$text(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'(',
+									A2(_elm_lang$core$Basics_ops['++'], ptStr, ')')))))
+					])));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$generateCHCircles = function (ar) {
+	var len = _elm_lang$core$Array$length(ar);
+	return _MacCASOutreach$graphicsvg$GraphicSVG$group(
+		A2(
+			_elm_lang$core$List$map,
+			_MacCASOutreach$graphicsvg$GraphicSVG$generateCHCircle(ar),
+			_elm_lang$core$Native_List.range(0, len - 1)));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$generateCurveHelper = F2(
+	function (_p83, list) {
+		var _p84 = _p83;
+		var l1Array = _elm_lang$core$Array$fromList(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Native_List.fromArray(
+					[
+						{ctor: '_Tuple2', _0: _p84._0, _1: _p84._1}
+					]),
+				_elm_lang$core$List$concat(
+					A2(_elm_lang$core$List$map, _MacCASOutreach$graphicsvg$GraphicSVG$createTopLevelList, list))));
+		return _MacCASOutreach$graphicsvg$GraphicSVG$group(
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_MacCASOutreach$graphicsvg$GraphicSVG$generateCHLines(l1Array),
+					_MacCASOutreach$graphicsvg$GraphicSVG$generateCHCircles(l1Array)
+				]));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$curveHelper = function (shape) {
+	var _p85 = shape;
+	_v44_5:
+	do {
+		switch (_p85.ctor) {
+			case 'Inked':
+				if ((_p85._2.ctor === 'BezierPath') && (_p85._2._0.ctor === '_Tuple2')) {
+					return _MacCASOutreach$graphicsvg$GraphicSVG$group(
+						_elm_lang$core$Native_List.fromArray(
+							[
+								shape,
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$generateCurveHelper,
+								{ctor: '_Tuple2', _0: _p85._2._0._0, _1: _p85._2._0._1},
+								_p85._2._1)
+							]));
+				} else {
+					break _v44_5;
+				}
+			case 'Move':
+				return A2(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Move,
+					_p85._0,
+					_MacCASOutreach$graphicsvg$GraphicSVG$curveHelper(_p85._1));
+			case 'Rotate':
+				return A2(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Rotate,
+					_p85._0,
+					_MacCASOutreach$graphicsvg$GraphicSVG$curveHelper(_p85._1));
+			case 'ScaleXY':
+				return A3(
+					_MacCASOutreach$graphicsvg$GraphicSVG$ScaleXY,
+					_p85._0,
+					_p85._1,
+					_MacCASOutreach$graphicsvg$GraphicSVG$curveHelper(_p85._2));
+			case 'Group':
+				return _MacCASOutreach$graphicsvg$GraphicSVG$Group(
+					A2(_elm_lang$core$List$map, _MacCASOutreach$graphicsvg$GraphicSVG$curveHelper, _p85._0));
+			default:
+				break _v44_5;
+		}
+	} while(false);
+	return _p85;
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$serif = function (stencil) {
+	var _p86 = stencil;
+	if (_p86.ctor === 'Text') {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Text,
+			A8(_MacCASOutreach$graphicsvg$GraphicSVG$Face, _p86._0._0, _p86._0._1, _p86._0._2, _p86._0._3, _p86._0._4, _p86._0._5, _MacCASOutreach$graphicsvg$GraphicSVG$Serif, _p86._0._7),
+			_p86._1);
+	} else {
+		return _p86;
+	}
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Pull = F2(
+	function (a, b) {
+		return {ctor: 'Pull', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Up = {ctor: 'Up'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$JustUp = {ctor: 'JustUp'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Down = {ctor: 'Down'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$JustDown = {ctor: 'JustDown'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$insertKeyDict = F3(
+	function (dict, key, action) {
+		var currState = A2(_elm_lang$core$Dict$get, key, dict);
+		var _p87 = currState;
+		if (_p87.ctor === 'Just') {
+			if (_p87._0._1 === false) {
+				switch (_p87._0._0.ctor) {
+					case 'JustDown':
+						return A3(
+							_elm_lang$core$Dict$insert,
+							key,
+							function () {
+								var _p88 = action;
+								if (_p88.ctor === 'WentDown') {
+									return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustDown, _1: false};
+								} else {
+									return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustDown, _1: true};
+								}
+							}(),
+							dict);
+					case 'Down':
+						return A3(
+							_elm_lang$core$Dict$insert,
+							key,
+							function () {
+								var _p89 = action;
+								if (_p89.ctor === 'WentDown') {
+									return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$Down, _1: false};
+								} else {
+									return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustUp, _1: false};
+								}
+							}(),
+							dict);
+					case 'Up':
+						return A3(
+							_elm_lang$core$Dict$insert,
+							key,
+							function () {
+								var _p90 = action;
+								if (_p90.ctor === 'WentDown') {
+									return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustDown, _1: false};
+								} else {
+									return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustUp, _1: false};
+								}
+							}(),
+							dict);
+					default:
+						return A3(
+							_elm_lang$core$Dict$insert,
+							key,
+							function () {
+								var _p91 = action;
+								if (_p91.ctor === 'WentDown') {
+									return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustUp, _1: true};
+								} else {
+									return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustUp, _1: false};
+								}
+							}(),
+							dict);
+				}
+			} else {
+				var _p93 = _p87._0._0;
+				return A3(
+					_elm_lang$core$Dict$insert,
+					key,
+					function () {
+						var _p92 = action;
+						if (_p92.ctor === 'WentDown') {
+							return {ctor: '_Tuple2', _0: _p93, _1: true};
+						} else {
+							return {ctor: '_Tuple2', _0: _p93, _1: true};
+						}
+					}(),
+					dict);
+			}
+		} else {
+			return A3(
+				_elm_lang$core$Dict$insert,
+				key,
+				function () {
+					var _p94 = action;
+					if (_p94.ctor === 'WentDown') {
+						return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustDown, _1: false};
+					} else {
+						return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustUp, _1: false};
+					}
+				}(),
+				dict);
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$maintainHelper = F2(
+	function (key, action) {
+		var _p95 = action;
+		if (_p95._1 === false) {
+			switch (_p95._0.ctor) {
+				case 'JustUp':
+					return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$Up, _1: false};
+				case 'Up':
+					return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$Up, _1: false};
+				case 'JustDown':
+					return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$Down, _1: false};
+				default:
+					return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$Down, _1: false};
+			}
+		} else {
+			switch (_p95._0.ctor) {
+				case 'JustUp':
+					return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustDown, _1: false};
+				case 'Up':
+					return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$Up, _1: false};
+				case 'JustDown':
+					return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$JustUp, _1: false};
+				default:
+					return {ctor: '_Tuple2', _0: _MacCASOutreach$graphicsvg$GraphicSVG$Down, _1: false};
+			}
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$maintainKeyDict = function (dict) {
+	return A2(
+		_elm_lang$core$Dict$filter,
+		_MacCASOutreach$graphicsvg$GraphicSVG$filterHelper,
+		A2(_elm_lang$core$Dict$map, _MacCASOutreach$graphicsvg$GraphicSVG$maintainHelper, dict));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$keyCheckerFunction = F2(
+	function (dict, key) {
+		var kc = function () {
+			var _p96 = key;
+			switch (_p96.ctor) {
+				case 'Key':
+					return _elm_lang$core$Char$toCode(
+						_elm_lang$core$Char$toUpper(
+							function () {
+								var _p97 = _elm_lang$core$String$uncons(_p96._0);
+								if (_p97.ctor === 'Just') {
+									return _p97._0._0;
+								} else {
+									return _elm_lang$core$Native_Utils.chr('z');
+								}
+							}()));
+				case 'Backspace':
+					return 8;
+				case 'Tab':
+					return 9;
+				case 'Enter':
+					return 13;
+				case 'Shift':
+					return 16;
+				case 'Ctrl':
+					return 17;
+				case 'Alt':
+					return 18;
+				case 'Caps':
+					return 20;
+				case 'Space':
+					return 32;
+				case 'LeftArrow':
+					return 37;
+				case 'UpArrow':
+					return 38;
+				case 'RightArrow':
+					return 39;
+				case 'DownArrow':
+					return 40;
+				default:
+					return 46;
+			}
+		}();
+		var state = A2(_elm_lang$core$Dict$get, kc, dict);
+		var _p98 = state;
+		if (_p98.ctor === 'Just') {
+			switch (_p98._0._0.ctor) {
+				case 'JustDown':
+					return _MacCASOutreach$graphicsvg$GraphicSVG$JustDown;
+				case 'Down':
+					return _MacCASOutreach$graphicsvg$GraphicSVG$Down;
+				case 'JustUp':
+					return _MacCASOutreach$graphicsvg$GraphicSVG$JustUp;
+				default:
+					return _MacCASOutreach$graphicsvg$GraphicSVG$Up;
+			}
+		} else {
+			return _MacCASOutreach$graphicsvg$GraphicSVG$Up;
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$WentDown = {ctor: 'WentDown'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$WentUp = {ctor: 'WentUp'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$NoOp = {ctor: 'NoOp'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$initGModel = {cw: 0, ch: 0, sw: 0, sh: 0, initT: 0, updateTick: _MacCASOutreach$graphicsvg$GraphicSVG$NoOp, keys: _elm_lang$core$Dict$empty};
+var _MacCASOutreach$graphicsvg$GraphicSVG$KeyUp = function (a) {
+	return {ctor: 'KeyUp', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$KeyDown = function (a) {
+	return {ctor: 'KeyDown', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$keySubs = _elm_lang$core$Native_List.fromArray(
+	[
+		_elm_lang$keyboard$Keyboard$ups(_MacCASOutreach$graphicsvg$GraphicSVG$KeyUp),
+		_elm_lang$keyboard$Keyboard$downs(_MacCASOutreach$graphicsvg$GraphicSVG$KeyDown)
+	]);
+var _MacCASOutreach$graphicsvg$GraphicSVG$TickTime = function (a) {
+	return {ctor: 'TickTime', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$createTimeMessage = function (t) {
+	var time = _elm_lang$core$Time$inSeconds(t);
+	return _MacCASOutreach$graphicsvg$GraphicSVG$TickTime(time);
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$InitTime = function (a) {
+	return {ctor: 'InitTime', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$getInitTime = function (t) {
+	return _MacCASOutreach$graphicsvg$GraphicSVG$InitTime(
+		_elm_lang$core$Time$inSeconds(t));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$CollageSize = function (a) {
+	return {ctor: 'CollageSize', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$getCollageSize = function (userView) {
+	var _p99 = userView;
+	return _MacCASOutreach$graphicsvg$GraphicSVG$CollageSize(
+		{
+			ctor: '_Tuple2',
+			_0: _elm_lang$core$Basics$round(_p99._0._0),
+			_1: _elm_lang$core$Basics$round(_p99._0._1)
+		});
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition = F2(
+	function (a, b) {
+		return {ctor: 'ReturnPosition', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyTapAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$TapAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyEnterAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$EnterAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyLeaveAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$ExitAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseMoveAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$MoveOverAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDownAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$MouseDownAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseUpAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$MouseUpAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyTouchStartAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$TouchStartAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyTouchEndAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$TouchEndAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyTouchMoveAt = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$TouchMoveAt,
+			_MacCASOutreach$graphicsvg$GraphicSVG$ReturnPosition(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$WindowResize = function (a) {
+	return {ctor: 'WindowResize', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$sizeToMsg = function (size) {
+	return _MacCASOutreach$graphicsvg$GraphicSVG$WindowResize(
+		{ctor: '_Tuple2', _0: size.width, _1: size.height});
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$subs = F2(
+	function (extraSubs, model) {
+		return _elm_lang$core$Platform_Sub$batch(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(_elm_lang$core$Time$every, (1000 / 30) * _elm_lang$core$Time$millisecond, _MacCASOutreach$graphicsvg$GraphicSVG$createTimeMessage),
+						_elm_lang$window$Window$resizes(_MacCASOutreach$graphicsvg$GraphicSVG$sizeToMsg)
+					]),
+				A2(_elm_lang$core$Basics_ops['++'], _MacCASOutreach$graphicsvg$GraphicSVG$keySubs, extraSubs)));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$initialSizeCmd = F2(
+	function (otherCmds, userView) {
+		return _elm_lang$core$Platform_Cmd$batch(
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A3(
+						_elm_lang$core$Task$perform,
+						function (_p100) {
+							return _MacCASOutreach$graphicsvg$GraphicSVG$NoOp;
+						},
+						_MacCASOutreach$graphicsvg$GraphicSVG$sizeToMsg,
+						_elm_lang$window$Window$size),
+						A3(
+						_elm_lang$core$Task$perform,
+						function (_p101) {
+							return _MacCASOutreach$graphicsvg$GraphicSVG$NoOp;
+						},
+						_MacCASOutreach$graphicsvg$GraphicSVG$getCollageSize,
+						_elm_lang$core$Task$succeed(userView)),
+						A3(
+						_elm_lang$core$Task$perform,
+						function (_p102) {
+							return _MacCASOutreach$graphicsvg$GraphicSVG$NoOp;
+						},
+						_MacCASOutreach$graphicsvg$GraphicSVG$getInitTime,
+						_elm_lang$core$Time$now)
+					]),
+				otherCmds));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Graphics = function (a) {
+	return {ctor: 'Graphics', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyTap = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Tap,
+			_MacCASOutreach$graphicsvg$GraphicSVG$Graphics(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyEnter = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$EnterShape,
+			_MacCASOutreach$graphicsvg$GraphicSVG$Graphics(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyLeave = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Exit,
+			_MacCASOutreach$graphicsvg$GraphicSVG$Graphics(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseDown = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$MouseDown,
+			_MacCASOutreach$graphicsvg$GraphicSVG$Graphics(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyMouseUp = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$MouseUp,
+			_MacCASOutreach$graphicsvg$GraphicSVG$Graphics(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyTouchStart = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$TouchStart,
+			_MacCASOutreach$graphicsvg$GraphicSVG$Graphics(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notifyTouchEnd = F2(
+	function (msg, shape) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$TouchEnd,
+			_MacCASOutreach$graphicsvg$GraphicSVG$Graphics(msg),
+			shape);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Space = {ctor: 'Space'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Delete = {ctor: 'Delete'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$DownArrow = {ctor: 'DownArrow'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$RightArrow = {ctor: 'RightArrow'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$UpArrow = {ctor: 'UpArrow'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$LeftArrow = {ctor: 'LeftArrow'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$arrowKeys = function (checker) {
+	return {
+		ctor: '_Tuple2',
+		_0: function () {
+			var _p103 = {
+				ctor: '_Tuple2',
+				_0: checker(_MacCASOutreach$graphicsvg$GraphicSVG$LeftArrow),
+				_1: checker(_MacCASOutreach$graphicsvg$GraphicSVG$RightArrow)
+			};
+			_v58_8:
+			do {
+				if (_p103.ctor === '_Tuple2') {
+					switch (_p103._0.ctor) {
+						case 'Down':
+							switch (_p103._1.ctor) {
+								case 'Up':
+									return -1;
+								case 'JustUp':
+									return -1;
+								default:
+									break _v58_8;
+							}
+						case 'JustDown':
+							switch (_p103._1.ctor) {
+								case 'Up':
+									return -1;
+								case 'JustUp':
+									return -1;
+								default:
+									break _v58_8;
+							}
+						case 'Up':
+							switch (_p103._1.ctor) {
+								case 'Down':
+									return 1;
+								case 'JustDown':
+									return 1;
+								default:
+									break _v58_8;
+							}
+						default:
+							switch (_p103._1.ctor) {
+								case 'Down':
+									return 1;
+								case 'JustDown':
+									return 1;
+								default:
+									break _v58_8;
+							}
+					}
+				} else {
+					break _v58_8;
+				}
+			} while(false);
+			return 0;
+		}(),
+		_1: function () {
+			var _p104 = {
+				ctor: '_Tuple2',
+				_0: checker(_MacCASOutreach$graphicsvg$GraphicSVG$DownArrow),
+				_1: checker(_MacCASOutreach$graphicsvg$GraphicSVG$UpArrow)
+			};
+			_v59_8:
+			do {
+				if (_p104.ctor === '_Tuple2') {
+					switch (_p104._0.ctor) {
+						case 'Down':
+							switch (_p104._1.ctor) {
+								case 'Up':
+									return -1;
+								case 'JustUp':
+									return -1;
+								default:
+									break _v59_8;
+							}
+						case 'JustDown':
+							switch (_p104._1.ctor) {
+								case 'Up':
+									return -1;
+								case 'JustUp':
+									return -1;
+								default:
+									break _v59_8;
+							}
+						case 'Up':
+							switch (_p104._1.ctor) {
+								case 'Down':
+									return 1;
+								case 'JustDown':
+									return 1;
+								default:
+									break _v59_8;
+							}
+						default:
+							switch (_p104._1.ctor) {
+								case 'Down':
+									return 1;
+								case 'JustDown':
+									return 1;
+								default:
+									break _v59_8;
+							}
+					}
+				} else {
+					break _v59_8;
+				}
+			} while(false);
+			return 0;
+		}()
+	};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Caps = {ctor: 'Caps'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Alt = {ctor: 'Alt'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Ctrl = {ctor: 'Ctrl'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Shift = {ctor: 'Shift'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Enter = {ctor: 'Enter'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Tab = {ctor: 'Tab'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Backspace = {ctor: 'Backspace'};
+var _MacCASOutreach$graphicsvg$GraphicSVG$Key = function (a) {
+	return {ctor: 'Key', _0: a};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$wasdKeys = function (checker) {
+	return {
+		ctor: '_Tuple2',
+		_0: function () {
+			var _p105 = {
+				ctor: '_Tuple2',
+				_0: checker(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Key('a')),
+				_1: checker(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Key('d'))
+			};
+			_v60_8:
+			do {
+				if (_p105.ctor === '_Tuple2') {
+					switch (_p105._0.ctor) {
+						case 'Down':
+							switch (_p105._1.ctor) {
+								case 'Up':
+									return -1;
+								case 'JustUp':
+									return -1;
+								default:
+									break _v60_8;
+							}
+						case 'JustDown':
+							switch (_p105._1.ctor) {
+								case 'Up':
+									return -1;
+								case 'JustUp':
+									return -1;
+								default:
+									break _v60_8;
+							}
+						case 'Up':
+							switch (_p105._1.ctor) {
+								case 'Down':
+									return 1;
+								case 'JustDown':
+									return 1;
+								default:
+									break _v60_8;
+							}
+						default:
+							switch (_p105._1.ctor) {
+								case 'Down':
+									return 1;
+								case 'JustDown':
+									return 1;
+								default:
+									break _v60_8;
+							}
+					}
+				} else {
+					break _v60_8;
+				}
+			} while(false);
+			return 0;
+		}(),
+		_1: function () {
+			var _p106 = {
+				ctor: '_Tuple2',
+				_0: checker(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Key('s')),
+				_1: checker(
+					_MacCASOutreach$graphicsvg$GraphicSVG$Key('w'))
+			};
+			_v61_8:
+			do {
+				if (_p106.ctor === '_Tuple2') {
+					switch (_p106._0.ctor) {
+						case 'Down':
+							switch (_p106._1.ctor) {
+								case 'Up':
+									return -1;
+								case 'JustUp':
+									return -1;
+								default:
+									break _v61_8;
+							}
+						case 'JustDown':
+							switch (_p106._1.ctor) {
+								case 'Up':
+									return -1;
+								case 'JustUp':
+									return -1;
+								default:
+									break _v61_8;
+							}
+						case 'Up':
+							switch (_p106._1.ctor) {
+								case 'Down':
+									return 1;
+								case 'JustDown':
+									return 1;
+								default:
+									break _v61_8;
+							}
+						default:
+							switch (_p106._1.ctor) {
+								case 'Down':
+									return 1;
+								case 'JustDown':
+									return 1;
+								default:
+									break _v61_8;
+							}
+					}
+				} else {
+					break _v61_8;
+				}
+			} while(false);
+			return 0;
+		}()
+	};
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$hiddenGameUpdate = F3(
+	function (update, msg, _p107) {
+		var _p108 = _p107;
+		var _p111 = _p108._0;
+		var _p110 = _p108._1;
+		var updateTick = _p110.updateTick;
+		var _p109 = msg;
+		switch (_p109.ctor) {
+			case 'Graphics':
+				return {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: A2(update, _p109._0, _p111),
+						_1: _p110
+					},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'WindowResize':
+				return {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: _p111,
+						_1: _elm_lang$core$Native_Utils.update(
+							_p110,
+							{
+								sw: _elm_lang$core$Basics$toFloat(_p109._0._0),
+								sh: _elm_lang$core$Basics$toFloat(_p109._0._1)
+							})
+					},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'ReturnPosition':
+				return {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: A2(
+							update,
+							_p109._0(
+								A2(
+									_MacCASOutreach$graphicsvg$GraphicSVG$convertCoords,
+									{ctor: '_Tuple2', _0: _p109._1._0, _1: _p109._1._1},
+									_p110)),
+							_p111),
+						_1: _p110
+					},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'CollageSize':
+				return {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: _p111,
+						_1: _elm_lang$core$Native_Utils.update(
+							_p110,
+							{
+								cw: _elm_lang$core$Basics$toFloat(_p109._0._0),
+								ch: _elm_lang$core$Basics$toFloat(_p109._0._1)
+							})
+					},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'InitTime':
+				return {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: _p111,
+						_1: _elm_lang$core$Native_Utils.update(
+							_p110,
+							{initT: _p109._0})
+					},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'TickTime':
+				return {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: A2(
+							update,
+							A2(
+								_p110.updateTick,
+								_p109._0 - _p110.initT,
+								{
+									ctor: '_Tuple3',
+									_0: _MacCASOutreach$graphicsvg$GraphicSVG$keyCheckerFunction(_p110.keys),
+									_1: _MacCASOutreach$graphicsvg$GraphicSVG$arrowKeys(
+										_MacCASOutreach$graphicsvg$GraphicSVG$keyCheckerFunction(_p110.keys)),
+									_2: _MacCASOutreach$graphicsvg$GraphicSVG$wasdKeys(
+										_MacCASOutreach$graphicsvg$GraphicSVG$keyCheckerFunction(_p110.keys))
+								}),
+							_p111),
+						_1: _elm_lang$core$Native_Utils.update(
+							_p110,
+							{
+								keys: _MacCASOutreach$graphicsvg$GraphicSVG$maintainKeyDict(_p110.keys)
+							})
+					},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'KeyDown':
+				return {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: _p111,
+						_1: _elm_lang$core$Native_Utils.update(
+							_p110,
+							{
+								keys: A3(_MacCASOutreach$graphicsvg$GraphicSVG$insertKeyDict, _p110.keys, _p109._0, _MacCASOutreach$graphicsvg$GraphicSVG$WentDown)
+							})
+					},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			case 'KeyUp':
+				return {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: _p111,
+						_1: _elm_lang$core$Native_Utils.update(
+							_p110,
+							{
+								keys: A3(_MacCASOutreach$graphicsvg$GraphicSVG$insertKeyDict, _p110.keys, _p109._0, _MacCASOutreach$graphicsvg$GraphicSVG$WentUp)
+							})
+					},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+			default:
+				return {
+					ctor: '_Tuple2',
+					_0: {ctor: '_Tuple2', _0: _p111, _1: _p110},
+					_1: _elm_lang$core$Platform_Cmd$none
+				};
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$Collage = F2(
+	function (a, b) {
+		return {ctor: 'Collage', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$collage = F3(
+	function (w, h, shapes) {
+		return A2(
+			_MacCASOutreach$graphicsvg$GraphicSVG$Collage,
+			{ctor: '_Tuple2', _0: w, _1: h},
+			shapes);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$puppetShow = F3(
+	function (w, h, listShapes) {
+		return A3(
+			_MacCASOutreach$graphicsvg$GraphicSVG$collage,
+			w,
+			h,
+			A2(
+				_elm_lang$core$List$map,
+				_MacCASOutreach$graphicsvg$GraphicSVG$extractShape,
+				A2(_elm_lang$core$List$sortWith, _MacCASOutreach$graphicsvg$GraphicSVG$flippedComparison, listShapes)));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$TouchPos = F2(
+	function (a, b) {
+		return {ctor: 'TouchPos', _0: a, _1: b};
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$touchDecoder = _elm_lang$core$Json_Decode$oneOf(
+	_elm_lang$core$Native_List.fromArray(
+		[
+			A2(
+			_elm_lang$core$Json_Decode$at,
+			_elm_lang$core$Native_List.fromArray(
+				['touches', '0']),
+			A3(
+				_elm_lang$core$Json_Decode$object2,
+				_MacCASOutreach$graphicsvg$GraphicSVG$TouchPos,
+				A2(_elm_lang$core$Json_Decode_ops[':='], 'pageX', _elm_lang$core$Json_Decode$float),
+				A2(_elm_lang$core$Json_Decode_ops[':='], 'pageY', _elm_lang$core$Json_Decode$float))),
+			A3(
+			_elm_lang$core$Json_Decode$object2,
+			_MacCASOutreach$graphicsvg$GraphicSVG$TouchPos,
+			A2(_elm_lang$core$Json_Decode_ops[':='], 'pageX', _elm_lang$core$Json_Decode$float),
+			A2(_elm_lang$core$Json_Decode_ops[':='], 'pageY', _elm_lang$core$Json_Decode$float))
+		]));
+var _MacCASOutreach$graphicsvg$GraphicSVG$onTouchStartAt = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'touchstart',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p112) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$touchToPair(_p112));
+			},
+			_MacCASOutreach$graphicsvg$GraphicSVG$touchDecoder));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onTouchEndAt = function (msg) {
+	return A2(
+		_elm_lang$html$Html_Events$on,
+		'touchend',
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p113) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$touchToPair(_p113));
+			},
+			_MacCASOutreach$graphicsvg$GraphicSVG$touchDecoder));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$onTouchMove = function (msg) {
+	var dOp = _elm_lang$html$Html_Events$defaultOptions;
+	return A3(
+		_elm_lang$html$Html_Events$onWithOptions,
+		'touchmove',
+		_elm_lang$core$Native_Utils.update(
+			dOp,
+			{preventDefault: true}),
+		A2(
+			_elm_lang$core$Json_Decode$map,
+			function (_p114) {
+				return msg(
+					_MacCASOutreach$graphicsvg$GraphicSVG$touchToPair(_p114));
+			},
+			_MacCASOutreach$graphicsvg$GraphicSVG$touchDecoder));
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$createSVG = F2(
+	function (trans, shape) {
+		createSVG:
+		while (true) {
+			var _p115 = shape;
+			switch (_p115.ctor) {
+				case 'Inked':
+					var _p127 = _p115._0;
+					var strokeAttrs = function () {
+						var _p116 = _p115._1;
+						if (_p116.ctor === 'Nothing') {
+							return _elm_lang$core$Native_List.fromArray(
+								[]);
+						} else {
+							if (_p116._0._0.ctor === 'Solid') {
+								var _p117 = _p116._0._1;
+								return _elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$svg$Svg_Attributes$strokeWidth(
+										_elm_lang$core$Basics$toString(_p116._0._0._0)),
+										_elm_lang$svg$Svg_Attributes$stroke(
+										_MacCASOutreach$graphicsvg$GraphicSVG$mkRGB(_p117)),
+										_elm_lang$svg$Svg_Attributes$strokeOpacity(
+										_MacCASOutreach$graphicsvg$GraphicSVG$mkAlpha(_p117))
+									]);
+							} else {
+								var _p118 = _p116._0._1;
+								return A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$strokeWidth(
+											_elm_lang$core$Basics$toString(_p116._0._0._1)),
+											_elm_lang$svg$Svg_Attributes$stroke(
+											_MacCASOutreach$graphicsvg$GraphicSVG$mkRGB(_p118)),
+											_elm_lang$svg$Svg_Attributes$strokeOpacity(
+											_MacCASOutreach$graphicsvg$GraphicSVG$mkAlpha(_p118))
+										]),
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$strokeDasharray(
+											_elm_lang$core$String$concat(
+												A2(
+													_elm_lang$core$List$intersperse,
+													',',
+													A2(_elm_lang$core$List$map, _MacCASOutreach$graphicsvg$GraphicSVG$pairToString, _p116._0._0._0))))
+										]));
+							}
+						}
+					}();
+					var clrAttrs = _elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$svg$Svg_Attributes$fill(
+							_MacCASOutreach$graphicsvg$GraphicSVG$mkRGB(_p127)),
+							_elm_lang$svg$Svg_Attributes$fillOpacity(
+							_MacCASOutreach$graphicsvg$GraphicSVG$mkAlpha(_p127))
+						]);
+					var _p119 = _MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans);
+					var a = _p119._0._0._0;
+					var b = _p119._0._0._1;
+					var c = _p119._0._1._0;
+					var d = _p119._0._1._1;
+					var tx = _p119._0._2._0;
+					var ty = _p119._0._2._1;
+					var transAttrs = _elm_lang$core$Native_List.fromArray(
+						[
+							_elm_lang$svg$Svg_Attributes$transform(
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								'matrix(',
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$String$concat(
+										A2(
+											_elm_lang$core$List$intersperse,
+											',',
+											A2(
+												_elm_lang$core$List$map,
+												_elm_lang$core$Basics$toString,
+												_elm_lang$core$Native_List.fromArray(
+													[a, 0 - b, c, 0 - d, tx, 0 - ty])))),
+									')')))
+						]);
+					var attrs = A2(
+						_elm_lang$core$Basics_ops['++'],
+						transAttrs,
+						A2(_elm_lang$core$Basics_ops['++'], clrAttrs, strokeAttrs));
+					var _p120 = _p115._2;
+					switch (_p120.ctor) {
+						case 'Circle':
+							return A2(
+								_elm_lang$svg$Svg$circle,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$cx('0'),
+											_elm_lang$svg$Svg_Attributes$cy('0'),
+											_elm_lang$svg$Svg_Attributes$r(
+											_elm_lang$core$Basics$toString(_p120._0))
+										]),
+									attrs),
+								_elm_lang$core$Native_List.fromArray(
+									[]));
+						case 'Rect':
+							var _p122 = _p120._0;
+							var _p121 = _p120._1;
+							return A2(
+								_elm_lang$svg$Svg$rect,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$x(
+											_elm_lang$core$Basics$toString((0 - _p122) / 2)),
+											_elm_lang$svg$Svg_Attributes$y(
+											_elm_lang$core$Basics$toString((0 - _p121) / 2)),
+											_elm_lang$svg$Svg_Attributes$width(
+											_elm_lang$core$Basics$toString(_p122)),
+											_elm_lang$svg$Svg_Attributes$height(
+											_elm_lang$core$Basics$toString(_p121))
+										]),
+									attrs),
+								_elm_lang$core$Native_List.fromArray(
+									[]));
+						case 'RoundRect':
+							var _p125 = _p120._0;
+							var _p124 = _p120._2;
+							var _p123 = _p120._1;
+							return A2(
+								_elm_lang$svg$Svg$rect,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$x(
+											_elm_lang$core$Basics$toString((0 - _p125) / 2)),
+											_elm_lang$svg$Svg_Attributes$y(
+											_elm_lang$core$Basics$toString((0 - _p123) / 2)),
+											_elm_lang$svg$Svg_Attributes$rx(
+											_elm_lang$core$Basics$toString(_p124)),
+											_elm_lang$svg$Svg_Attributes$ry(
+											_elm_lang$core$Basics$toString(_p124)),
+											_elm_lang$svg$Svg_Attributes$width(
+											_elm_lang$core$Basics$toString(_p125)),
+											_elm_lang$svg$Svg_Attributes$height(
+											_elm_lang$core$Basics$toString(_p123))
+										]),
+									attrs),
+								_elm_lang$core$Native_List.fromArray(
+									[]));
+						case 'Oval':
+							return A2(
+								_elm_lang$svg$Svg$ellipse,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$cx('0'),
+											_elm_lang$svg$Svg_Attributes$cy('0'),
+											_elm_lang$svg$Svg_Attributes$rx(
+											_elm_lang$core$Basics$toString(0.5 * _p120._0)),
+											_elm_lang$svg$Svg_Attributes$ry(
+											_elm_lang$core$Basics$toString(0.5 * _p120._1))
+										]),
+									attrs),
+								_elm_lang$core$Native_List.fromArray(
+									[]));
+						case 'Polygon':
+							return A2(
+								_elm_lang$svg$Svg$polygon,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$points(
+											_elm_lang$core$String$concat(
+												A2(
+													_elm_lang$core$List$intersperse,
+													' ',
+													A2(_elm_lang$core$List$map, _MacCASOutreach$graphicsvg$GraphicSVG$pairToString, _p120._0))))
+										]),
+									attrs),
+								_elm_lang$core$Native_List.fromArray(
+									[]));
+						case 'Path':
+							return A2(
+								_elm_lang$svg$Svg$polyline,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$points(
+											_elm_lang$core$String$concat(
+												A2(
+													_elm_lang$core$List$intersperse,
+													' ',
+													A2(_elm_lang$core$List$map, _MacCASOutreach$graphicsvg$GraphicSVG$pairToString, _p120._0))))
+										]),
+									attrs),
+								_elm_lang$core$Native_List.fromArray(
+									[]));
+						case 'BezierPath':
+							return A2(
+								_elm_lang$svg$Svg$path,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$d(
+											A2(_MacCASOutreach$graphicsvg$GraphicSVG$createBezierString, _p120._0, _p120._1))
+										]),
+									attrs),
+								_elm_lang$core$Native_List.fromArray(
+									[]));
+						default:
+							var font = function () {
+								var _p126 = _p120._0._6;
+								switch (_p126.ctor) {
+									case 'Sansserif':
+										return 'sansserif;';
+									case 'Serif':
+										return 'serif;';
+									case 'FixedWidth':
+										return 'monospace;';
+									default:
+										return A2(_elm_lang$core$Basics_ops['++'], _p126._0, ';');
+								}
+							}();
+							var anchor = _p120._0._7 ? 'middle' : 'left';
+							var select = _elm_lang$core$Basics$not(_p120._0._5) ? '-webkit-touch-callout: none;\r\n                                                                                      -webkit-user-select: none;\r\n                                                                                      -khtml-user-select: none;\r\n                                                                                      -moz-user-select: none;\r\n                                                                                      -ms-user-select: none;\r\n                                                                                      user-select: none;cursor: default;' : '';
+							var stri = _p120._0._4 ? 'text-decoration: strikethrough;' : '';
+							var un = _p120._0._3 ? 'text-decoration: underline;' : '';
+							var it = _p120._0._2 ? 'font-style: italic;' : '';
+							var bol = _p120._0._1 ? 'font-weight: bold;' : '';
+							var sty = A2(
+								_elm_lang$core$Basics_ops['++'],
+								bol,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									it,
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										un,
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											stri,
+											A2(
+												_elm_lang$core$Basics_ops['++'],
+												'font-family: ',
+												A2(_elm_lang$core$Basics_ops['++'], font, select))))));
+							return A2(
+								_elm_lang$svg$Svg$text$,
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									_elm_lang$core$Native_List.fromArray(
+										[
+											_elm_lang$svg$Svg_Attributes$x(
+											_elm_lang$core$Basics$toString(0)),
+											_elm_lang$svg$Svg_Attributes$y(
+											_elm_lang$core$Basics$toString(0)),
+											_elm_lang$svg$Svg_Attributes$style(sty),
+											_elm_lang$svg$Svg_Attributes$fontSize(
+											_elm_lang$core$Basics$toString(_p120._0._0)),
+											_elm_lang$svg$Svg_Attributes$textAnchor(anchor),
+											_elm_lang$html$Html_Attributes$contenteditable(true)
+										]),
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										attrs,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$svg$Svg_Attributes$transform(
+												A2(
+													_elm_lang$core$Basics_ops['++'],
+													'matrix(',
+													A2(
+														_elm_lang$core$Basics_ops['++'],
+														_elm_lang$core$String$concat(
+															A2(
+																_elm_lang$core$List$intersperse,
+																',',
+																A2(
+																	_elm_lang$core$List$map,
+																	_elm_lang$core$Basics$toString,
+																	_elm_lang$core$Native_List.fromArray(
+																		[a, b, c, d, tx, 0 - ty])))),
+														')')))
+											]))),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										_elm_lang$svg$Svg$text(_p120._1)
+									]));
+					}
+				case 'Move':
+					var _v68 = A2(_MacCASOutreach$graphicsvg$GraphicSVG$moveT, trans, _p115._0),
+						_v69 = _p115._1;
+					trans = _v68;
+					shape = _v69;
+					continue createSVG;
+				case 'Rotate':
+					var _v70 = A2(_MacCASOutreach$graphicsvg$GraphicSVG$rotT, trans, _p115._0),
+						_v71 = _p115._1;
+					trans = _v70;
+					shape = _v71;
+					continue createSVG;
+				case 'ScaleXY':
+					var _v72 = A2(
+						_MacCASOutreach$graphicsvg$GraphicSVG$scaleT,
+						trans,
+						{ctor: '_Tuple2', _0: _p115._0, _1: _p115._1}),
+						_v73 = _p115._2;
+					trans = _v72;
+					shape = _v73;
+					continue createSVG;
+				case 'ForeignObject':
+					var _p128 = _MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans);
+					var a = _p128._0._0._0;
+					var b = _p128._0._0._1;
+					var c = _p128._0._1._0;
+					var d = _p128._0._1._1;
+					var tx = _p128._0._2._0;
+					var ty = _p128._0._2._1;
+					return A2(
+						_elm_lang$svg$Svg$foreignObject,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$svg$Svg_Attributes$transform(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'matrix(',
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_elm_lang$core$String$concat(
+											A2(
+												_elm_lang$core$List$intersperse,
+												',',
+												A2(
+													_elm_lang$core$List$map,
+													_elm_lang$core$Basics$toString,
+													_elm_lang$core$Native_List.fromArray(
+														[a, b, c, d, tx, 0 - ty])))),
+										')')))
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[_p115._0]));
+				case 'ClipPath':
+					var _p129 = _p115._0;
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$svg$Svg_Attributes$clipPath(
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									'url(#',
+									A2(_elm_lang$core$Basics_ops['++'], _p129, ')')))
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_elm_lang$svg$Svg$defs,
+								_elm_lang$core$Native_List.fromArray(
+									[]),
+								_elm_lang$core$Native_List.fromArray(
+									[
+										A2(
+										_elm_lang$svg$Svg$clipPath,
+										_elm_lang$core$Native_List.fromArray(
+											[
+												_elm_lang$svg$Svg_Attributes$id(_p129)
+											]),
+										_elm_lang$core$Native_List.fromArray(
+											[
+												A2(
+												_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+												_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+												_p115._1)
+											]))
+									])),
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._2)
+							]));
+				case 'Link':
+					return A2(
+						_elm_lang$svg$Svg$a,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$svg$Svg_Attributes$xlinkHref(_p115._0),
+								_elm_lang$svg$Svg_Attributes$target('_blank')
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'Tap':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Events$onClick(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'TapAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onTapAt(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'EnterShape':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Events$onMouseEnter(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'EnterAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onEnterAt(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'Exit':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Events$onMouseLeave(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'ExitAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onLeaveAt(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'MouseDown':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Events$onMouseDown(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'MouseDownAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onMouseDownAt(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'MouseUp':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$html$Html_Events$onMouseUp(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'MouseUpAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onMouseUpAt(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'MoveOverAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onMoveAt(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'TouchStart':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onTouchStart(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'TouchEnd':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onTouchEnd(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'TouchStartAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onTouchStartAt(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'TouchEndAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onTouchStartAt(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				case 'TouchMoveAt':
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_MacCASOutreach$graphicsvg$GraphicSVG$onTouchMove(_p115._0)
+							]),
+						_elm_lang$core$Native_List.fromArray(
+							[
+								A2(
+								_MacCASOutreach$graphicsvg$GraphicSVG$createSVG,
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans),
+								_p115._1)
+							]));
+				default:
+					return A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						A2(
+							_elm_lang$core$List$map,
+							_MacCASOutreach$graphicsvg$GraphicSVG$createSVG(
+								_MacCASOutreach$graphicsvg$GraphicSVG$coalesce(trans)),
+							_p115._0));
+			}
+		}
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$createCollage = F3(
+	function (w, h, shapes) {
+		return A2(
+			_elm_lang$svg$Svg$svg,
+			_elm_lang$core$Native_List.fromArray(
+				[
+					_elm_lang$svg$Svg_Attributes$width('100%'),
+					_elm_lang$svg$Svg_Attributes$height('99%'),
+					_elm_lang$svg$Svg_Attributes$style('position:absolute'),
+					_elm_lang$svg$Svg_Attributes$viewBox(
+					A2(
+						_elm_lang$core$Basics_ops['++'],
+						_elm_lang$core$Basics$toString((0 - w) / 2),
+						A2(
+							_elm_lang$core$Basics_ops['++'],
+							' ',
+							A2(
+								_elm_lang$core$Basics_ops['++'],
+								_elm_lang$core$Basics$toString((0 - h) / 2),
+								A2(
+									_elm_lang$core$Basics_ops['++'],
+									' ',
+									A2(
+										_elm_lang$core$Basics_ops['++'],
+										_elm_lang$core$Basics$toString(w),
+										A2(
+											_elm_lang$core$Basics_ops['++'],
+											' ',
+											_elm_lang$core$Basics$toString(h))))))))
+				]),
+			A2(
+				_elm_lang$core$Basics_ops['++'],
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(_MacCASOutreach$graphicsvg$GraphicSVG$cPath, w, h)
+					]),
+				_elm_lang$core$Native_List.fromArray(
+					[
+						A2(
+						_elm_lang$svg$Svg$g,
+						_elm_lang$core$Native_List.fromArray(
+							[
+								_elm_lang$svg$Svg_Attributes$clipPath('url(#cPath)')
+							]),
+						A2(
+							_elm_lang$core$List$map,
+							_MacCASOutreach$graphicsvg$GraphicSVG$createSVG(_MacCASOutreach$graphicsvg$GraphicSVG$id),
+							shapes))
+					])));
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$blankView = F2(
+	function (view, _p130) {
+		var _p131 = _p130;
+		var _p132 = view;
+		return A3(_MacCASOutreach$graphicsvg$GraphicSVG$createCollage, _p132._0._0, _p132._0._1, _p132._1);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$graphicsApp = function (input) {
+	return _elm_lang$html$Html_App$program(
+		{
+			init: {
+				ctor: '_Tuple2',
+				_0: {ctor: '_Tuple2', _0: 0, _1: _MacCASOutreach$graphicsvg$GraphicSVG$initGModel},
+				_1: A2(
+					_MacCASOutreach$graphicsvg$GraphicSVG$initialSizeCmd,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					input.view)
+			},
+			update: _MacCASOutreach$graphicsvg$GraphicSVG$blankUpdate,
+			view: _MacCASOutreach$graphicsvg$GraphicSVG$blankView(input.view),
+			subscriptions: function (_p133) {
+				return _elm_lang$window$Window$resizes(_MacCASOutreach$graphicsvg$GraphicSVG$sizeToMsg);
+			}
+		});
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$hiddenView = F2(
+	function (view, _p134) {
+		var _p135 = _p134;
+		var _p136 = view(_p135._0);
+		return A3(_MacCASOutreach$graphicsvg$GraphicSVG$createCollage, _p136._0._0, _p136._0._1, _p136._1);
+	});
+var _MacCASOutreach$graphicsvg$GraphicSVG$notificationsApp = function (input) {
+	return _elm_lang$html$Html_App$program(
+		{
+			init: {
+				ctor: '_Tuple2',
+				_0: {ctor: '_Tuple2', _0: input.model, _1: _MacCASOutreach$graphicsvg$GraphicSVG$initGModel},
+				_1: A2(
+					_MacCASOutreach$graphicsvg$GraphicSVG$initialSizeCmd,
+					_elm_lang$core$Native_List.fromArray(
+						[]),
+					input.view(input.model))
+			},
+			update: _MacCASOutreach$graphicsvg$GraphicSVG$hiddenUpdate(input.update),
+			view: _MacCASOutreach$graphicsvg$GraphicSVG$hiddenView(input.view),
+			subscriptions: function (_p137) {
+				return _elm_lang$window$Window$resizes(_MacCASOutreach$graphicsvg$GraphicSVG$sizeToMsg);
+			}
+		});
+};
+var _MacCASOutreach$graphicsvg$GraphicSVG$gameApp = F2(
+	function (tickMsg, input) {
+		return _elm_lang$html$Html_App$program(
+			{
+				init: {
+					ctor: '_Tuple2',
+					_0: {
+						ctor: '_Tuple2',
+						_0: input.model,
+						_1: _elm_lang$core$Native_Utils.update(
+							_MacCASOutreach$graphicsvg$GraphicSVG$initGModel,
+							{updateTick: tickMsg})
+					},
+					_1: A2(
+						_MacCASOutreach$graphicsvg$GraphicSVG$initialSizeCmd,
+						_elm_lang$core$Native_List.fromArray(
+							[]),
+						input.view(input.model))
+				},
+				update: _MacCASOutreach$graphicsvg$GraphicSVG$hiddenGameUpdate(input.update),
+				view: _MacCASOutreach$graphicsvg$GraphicSVG$hiddenView(input.view),
+				subscriptions: _MacCASOutreach$graphicsvg$GraphicSVG$subs(
+					_elm_lang$core$Native_List.fromArray(
+						[]))
+			});
+	});
